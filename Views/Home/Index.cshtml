@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Startsida";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <h2>Sök på en Pokemon!</h2>
+    <form method="POST" action="@Url.Action("Index", "Home")">
+        <label>
+            Namn eller id:
+            <input type="text" name="Namn" value="" placeholder="Sök på Pokemon" />
+        </label>
+        <input type="submit" value="Sök" />
+    </form>
+    </br>
+</div>
+</br>
+@if (ViewBag.Message is null)
+{
+    
+    <h5>@ViewBag.FelMed</h5>
+}
+@*
+@if (ViewBag.Fetchtext is not null)
+{
+    <div>
+        <h1>Found Pokémon</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+            </tr>
+        </table>
+    </div>
+}
+
+<div>
+    <h1>Found Pokémon</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Id</th>
+            <th>Image</th>
+        </tr>
+        @foreach (var pokemon in ViewBag.LoopModel)
+        {
+            <tr>
+                <td>@pokemon.Name</td>
+                <td>@pokemon.Id</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div>
+    <h1>Name: @ViewBag.LoopModel.name</h1>
+    <h2>ID: @ViewBag.LoopModel.id</h2>
+    <h3>URL: @ViewBag.LoopModel.url</h3>
+</div>
+*@

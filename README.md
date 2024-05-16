@@ -1,6 +1,4 @@
 # lychee
-# lychee
-## Table of Contents
 
 
 README.md with instructions on how to get the project running, how to

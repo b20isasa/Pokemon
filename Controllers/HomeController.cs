@@ -1,16 +1,8 @@
 using lychee.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
-using System;
-using System.Runtime.Serialization.Json;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Caching.Memory;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
-using static System.Net.WebRequestMethods;
-using Microsoft.AspNetCore.OutputCaching;
 
 
 
@@ -22,10 +14,9 @@ namespace lychee.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-       
+
         public async Task<ActionResult> Index(string Namn)
         {
-            //PokemonModell model = new PokemonModell();
             LoopModell loopa = new LoopModell();
 
             using (HttpClient client = new HttpClient())
@@ -34,20 +25,12 @@ namespace lychee.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json")); // godkänna JSON-format
-                /*Console.WriteLine(BaseAddress);
-                 string Url = BaseAddress + Namn;
-               // string myString = Nummer.ToString();
-                //string IdNummer = BaseAddress + myString;*/
+
                 string urlString = "https://pokeapi.co/api/v2/pokemon/";
-                // var pika = "pikachu";
                 string Url = urlString + Namn;
-                //string IdUrl = urlString + myString;
                 Console.WriteLine(BaseAddress);
 
-                HttpResponseMessage response = await client.GetAsync(Url); // ÄNDRA TILL INSERT
-               // HttpResponseMessage responseNum = await client.GetAsync(IdUrl); // ÄNDRA TILL INSERT
-
-
+                HttpResponseMessage response = await client.GetAsync(Url);
                 try
                 {
                     if (string.IsNullOrEmpty(Namn))/* && string.IsNullOrEmpty(myString))*/
@@ -56,26 +39,30 @@ namespace lychee.Controllers
                     }
 
 
-                    else if ((response.IsSuccessStatusCode))/*|| (responseNum.IsSuccessStatusCode))*/
+                    else if (response.IsSuccessStatusCode)
                     {
 
                         var data = await response.Content.ReadAsStringAsync();
-                        //var FetchData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(data);
-                        //ViewBag.Message = FetchData;
                         var pokemon = JsonConvert.DeserializeObject<LoopModell>(data);
 
-                        var pokemonName = pokemon.name;
                         var pokemonId = pokemon.id;
-                        var pokemonUrl = pokemon.url;
+                        var pokemonName = pokemon.name;
+                        var pokemonUrl = pokemon.image;
+
 
                         LoopModell loopas = new LoopModell
                         {
+                            id = pokemonId,
                             name = pokemonName,
-                            url = pokemonUrl,
-                            id = pokemonId
-                            
-                        };
+                            image = pokemonUrl
 
+                        };
+                        
+                        foreach (var ability in pokemon.abilities)
+                        {
+                            var abilityUrl = ability.image;
+                            ViewBag.urls = abilityUrl;
+                        }
                         return Json(loopas);
                     }
                     else if (response.StatusCode == HttpStatusCode.NotFound)// för att titta om felmeddelandet är densamma som 404. 
@@ -84,9 +71,9 @@ namespace lychee.Controllers
                         return View();
                     }
                 }
-                catch (Exception ex) // ta bort denna förstör för else- IF
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    Console.WriteLine($" ett fel: {ex.Message}");
 
                 }
             }

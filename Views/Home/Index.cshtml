@@ -20,44 +20,6 @@
 </br>
 @if (ViewBag.Message is null)
 {
-    
+
     <h5>@ViewBag.FelMed</h5>
 }
-@*
-@if (ViewBag.Fetchtext is not null)
-{
-    <div>
-        <h1>Found Pokémon</h1>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-            </tr>
-        </table>
-    </div>
-}
-
-<div>
-    <h1>Found Pokémon</h1>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Id</th>
-            <th>Image</th>
-        </tr>
-        @foreach (var pokemon in ViewBag.LoopModel)
-        {
-            <tr>
-                <td>@pokemon.Name</td>
-                <td>@pokemon.Id</td>
-            </tr>
-        }
-    </table>
-</div>
-
-<div>
-    <h1>Name: @ViewBag.LoopModel.name</h1>
-    <h2>ID: @ViewBag.LoopModel.id</h2>
-    <h3>URL: @ViewBag.LoopModel.url</h3>
-</div>
-*@
